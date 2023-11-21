@@ -6,7 +6,7 @@ import (
 	_ "fmt"
 	log "github.com/sirupsen/logrus"
 	"github.com/tb/task-logger/common-packages/system"
-	cache "github.com/tb/task-logger/taskapp/cache"
+	
 	"github.com/tb/task-logger/taskapp/models"
 	"github.com/tb/task-logger/taskapp/services"
 	_ "github.com/tb/task-logger/taskapp/validations"
@@ -19,21 +19,11 @@ type Controller struct {
 	TaskController
 }
 
-var (
-	taskService services.TaskService
-	taskCache   cache.TaskCache
-)
+
 
 type TaskController interface {
 	TaskDetails(c web.C, w http.ResponseWriter, r *http.Request, logger *log.Entry) ([]byte, error)
-	ListTask(c web.C, w http.ResponseWriter, r *http.Request, logger *log.Entry) ([]byte, error)
-	AddTask(c web.C, w http.ResponseWriter, r *http.Request, logger *log.Entry) ([]byte, error)
-}
-
-func NewPostController(service services.TaskService, cache cache.TaskCache) TaskController {
-	taskService = service
-	taskCache = cache
-	return &Controller{}
+	
 }
 
 
