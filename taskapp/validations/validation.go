@@ -14,11 +14,7 @@ import (
 )
 
 func ValidateEmail(email string) bool {
-	//Re := regexp.MustCompile(`^[a-z0-9._%+\-]+@[a-z0-9.\-]+\.[a-z]{2,4}$`)
-
-	//re := regexp.MustCompile("^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$")
-	//Re := regexp.MustCompile(`^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,3}))$`)
-	Re := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-z]{2,4}$`)
+		Re := regexp.MustCompile(`^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-z]{2,4}$`)
 	return Re.MatchString(email)
 }
 
@@ -106,70 +102,10 @@ func ValidateDateFormat(dateToValidate string) bool {
 	}
 
 
-	/*l := len(models.AddTaskInput("ScheduledOn"))
 
-	for l > 0 {
-		l--
-		if !unicode.IsSpace(l) {
-
-
-			return l[0]
-		}
-	}
-
-
-	//test := strings.Fields(scheduledOn)
-
-
-
-
-	s := strings.SplitN(scheduledOn, "", 10)
-
-        date := strings.Split(s, "-")
-	for _, v := range date {
-		
-
-
-
-
-		//parsing date and time
-	l, err := time.Parse("2006-01-02 15:04", "2011-01-19 22:15")
-	if err != nil {
-		fmt.Println(err)
-		return l, nil
-	}*/
 
 
 
 }
 
-
-/*func ValidateDate(name string) bool {
-	Re := regexp.MustCompile(`^[0-9]+\-[0-9]+\-[0-9]`)
-	return Re.MatchString(name)
-}
-
-*/
-func ValidateAddTaskInput(logger *logrus.Entry, taskInputInfo models.AddTaskInput)(error) {
-
-	if taskInputInfo.Title == "" {
-		return system.InvalidTitleErr
-
-	} else if taskInputInfo.ScheduledOn == "" {
-
-		return system.InvalidScheduledOnErr
-
-	} else if taskInputInfo.Description == "" {
-
-		return system.InvalidDescriptionErr
-
-	} /*else if !ValidateDateFormat(taskInputInfo.ScheduledOn) {
-		return system.InvalidDateTimeFormatErr
-	}*/
-	_, err := time.Parse(system.CUSTOM_DATE_FORMAT, taskInputInfo.ScheduledOn)
-	if err != nil {
-		return system.InvalidDateFormatErr
-	}
-	return nil
-}
 
