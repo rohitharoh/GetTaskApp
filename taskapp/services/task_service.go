@@ -17,8 +17,6 @@ import (
 	"time"
 )
 type TaskService interface {
-	AddTask(logger *logrus.Entry, createTaskInput models.AddTaskInput, emailId string) ([]byte, error)
-	ListTask(logger *logrus.Entry, taskStatus string, emailId string) ([]byte, error)
 	TaskDetails(logger *logrus.Entry, emailId string, recordId string) ([]byte, error)
 }
 
@@ -33,12 +31,8 @@ func TaskDetails(logger *logrus.Entry, emailId string, recordId string) ([]byte,
 		return nil, system.NoRecordIdErr
 	}
 	var taskDetails *models.Task
-	taskDetails = cache.NewRedisCache("127.0.0.1:6379", 0, system.REDIS_DEFAULT_EXPIRATION_TIME).Get(recordId)
-	//key := system.TASKS_COLLECTION + ":" + recordId
- //  cache.NewRedisCache(viper.GetString("redis.addr"), 0, system.REDIS_DEFAULT_EXPIRATION_TIME).PSubPub(key)
 	if taskDetails == nil {
-		PublishMessage()
-		fmt.Println("post is nil")
+		
 		collectionName := system.TASKS_COLLECTION
 		databaseName := system.GetDatabaseName(collectionName)
 		sessionDb := system.TbAppContext.MongoDBSessionMap[databaseName].Clone()
@@ -55,7 +49,7 @@ func TaskDetails(logger *logrus.Entry, emailId string, recordId string) ([]byte,
 			}
 		}
 
-		cache.NewRedisCache(viper.GetString("redis.addr"), 0, system.REDIS_DEFAULT_EXPIRATION_TIME).Set(taskDetails.Id, taskDetails)
+		
 	}
 	completedOnDate := ""
 	if taskDetails.Status != system.TASK_STATUS_PENDING && taskDetails.CompletedOn.Format("2006-01-02") != "0001-01-01" {
